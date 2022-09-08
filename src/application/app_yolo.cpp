@@ -45,14 +45,14 @@ static shared_ptr<Yolo::Infer> get_yolo(Yolo::Type type, TRT::Mode mode, const s
     const char* name = model.c_str();
     INFO("===================== test %s %s %s ==================================", Yolo::type_name(type), mode_name, name);
 
-    if(not requires(name))
+    if(!requires(name))
         return nullptr;
 
     string onnx_file = iLogger::format("%s.onnx", name);
     string model_file = iLogger::format("%s.%s.trtmodel", name, mode_name);
     int test_batch_size = 16;
     
-    if(not iLogger::exists(model_file)){
+    if(!iLogger::exists(model_file)){
         TRT::compile(
             mode,                       // FP32、FP16、INT8
             test_batch_size,            // max batch size

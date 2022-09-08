@@ -7,7 +7,7 @@
 
 #ifdef U_OS_WINDOWS
 #if defined(_DEBUG)
-#	pragma comment(lib, "opencv_world346d.lib")
+//#	pragma comment(lib, "opencv_world346d.lib")
 #else
 #	pragma comment(lib, "opencv_world346.lib")
 #endif

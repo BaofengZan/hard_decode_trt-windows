@@ -53,41 +53,42 @@
     _getsystime(&t);
 #endif
 
-namespace iLogger{
+namespace iLogger {
 
     using namespace std;
 
-    const char* level_string(LogLevel level){
-        switch (level){
-            case LogLevel::Debug: return "debug";
-            case LogLevel::Verbose: return "verbo";
-            case LogLevel::Info: return "info";
-            case LogLevel::Warning: return "warn";
-            case LogLevel::Error: return "error";
-            case LogLevel::Fatal: return "fatal";
-            default: return "unknow";
+    const char* level_string(LogLevel level) {
+        switch (level) {
+        case LogLevel::Debug: return "debug";
+        case LogLevel::Verbose: return "verbo";
+        case LogLevel::Info: return "info";
+        case LogLevel::Warning: return "warn";
+        case LogLevel::Error: return "error";
+        case LogLevel::Fatal: return "fatal";
+        default: return "unknow";
         }
     }
 
-    std::tuple<uint8_t, uint8_t, uint8_t> hsv2bgr(float h, float s, float v){
+    std::tuple<uint8_t, uint8_t, uint8_t> hsv2bgr(float h, float s, float v) {
         const int h_i = static_cast<int>(h * 6);
         const float f = h * 6 - h_i;
         const float p = v * (1 - s);
-        const float q = v * (1 - f*s);
+        const float q = v * (1 - f * s);
         const float t = v * (1 - (1 - f) * s);
         float r, g, b;
         switch (h_i) {
-        case 0:r = v; g = t; b = p;break;
-        case 1:r = q; g = v; b = p;break;
-        case 2:r = p; g = v; b = t;break;
-        case 3:r = p; g = q; b = v;break;
-        case 4:r = t; g = p; b = v;break;
-        case 5:r = v; g = p; b = q;break;
-        default:r = 1; g = 1; b = 1;break;}
+        case 0:r = v; g = t; b = p; break;
+        case 1:r = q; g = v; b = p; break;
+        case 2:r = p; g = v; b = t; break;
+        case 3:r = p; g = q; b = v; break;
+        case 4:r = t; g = p; b = v; break;
+        case 5:r = v; g = p; b = q; break;
+        default:r = 1; g = 1; b = 1; break;
+        }
         return make_tuple(static_cast<uint8_t>(b * 255), static_cast<uint8_t>(g * 255), static_cast<uint8_t>(r * 255));
     }
 
-    std::tuple<uint8_t, uint8_t, uint8_t> random_color(int id){
+    std::tuple<uint8_t, uint8_t, uint8_t> random_color(int id) {
         float h_plane = ((((unsigned int)id << 2) ^ 0x937151) % 100) / 100.0f;;
         float s_plane = ((((unsigned int)id << 3) ^ 0x315793) % 100) / 100.0f;
         return hsv2bgr(h_plane, s_plane, 1);
@@ -101,7 +102,7 @@ namespace iLogger{
         return time_string;
     }
 
-    string time_now(){
+    string time_now() {
         char time_string[20];
         __GetTimeBlock;
 
@@ -109,7 +110,7 @@ namespace iLogger{
         return time_string;
     }
 
-    size_t file_size(const string& file){
+    size_t file_size(const string& file) {
 #if defined(U_OS_LINUX)
         struct stat st;
         stat(file.c_str(), &st);
@@ -125,7 +126,7 @@ namespace iLogger{
 #endif
     }
 
-    time_t last_modify(const string& file){
+    time_t last_modify(const string& file) {
 
 #if defined(U_OS_LINUX)
         struct stat st;
@@ -141,46 +142,46 @@ namespace iLogger{
         this_thread::sleep_for(std::chrono::milliseconds(ms));
     }
 
-    int get_month_by_name(char* month){
-        if(strcmp(month,"Jan") == 0)return 0;
-        if(strcmp(month,"Feb") == 0)return 1;
-        if(strcmp(month,"Mar") == 0)return 2;
-        if(strcmp(month,"Apr") == 0)return 3;
-        if(strcmp(month,"May") == 0)return 4;
-        if(strcmp(month,"Jun") == 0)return 5;
-        if(strcmp(month,"Jul") == 0)return 6;
-        if(strcmp(month,"Aug") == 0)return 7;
-        if(strcmp(month,"Sep") == 0)return 8;
-        if(strcmp(month,"Oct") == 0)return 9;
-        if(strcmp(month,"Nov") == 0)return 10;
-        if(strcmp(month,"Dec") == 0)return 11;
+    int get_month_by_name(char* month) {
+        if (strcmp(month, "Jan") == 0)return 0;
+        if (strcmp(month, "Feb") == 0)return 1;
+        if (strcmp(month, "Mar") == 0)return 2;
+        if (strcmp(month, "Apr") == 0)return 3;
+        if (strcmp(month, "May") == 0)return 4;
+        if (strcmp(month, "Jun") == 0)return 5;
+        if (strcmp(month, "Jul") == 0)return 6;
+        if (strcmp(month, "Aug") == 0)return 7;
+        if (strcmp(month, "Sep") == 0)return 8;
+        if (strcmp(month, "Oct") == 0)return 9;
+        if (strcmp(month, "Nov") == 0)return 10;
+        if (strcmp(month, "Dec") == 0)return 11;
         return -1;
     }
 
-    int get_week_day_by_name(char* wday){
-        if(strcmp(wday,"Sun") == 0)return 0;
-        if(strcmp(wday,"Mon") == 0)return 1;
-        if(strcmp(wday,"Tue") == 0)return 2;
-        if(strcmp(wday,"Wed") == 0)return 3;
-        if(strcmp(wday,"Thu") == 0)return 4;
-        if(strcmp(wday,"Fri") == 0)return 5;
-        if(strcmp(wday,"Sat") == 0)return 6;
+    int get_week_day_by_name(char* wday) {
+        if (strcmp(wday, "Sun") == 0)return 0;
+        if (strcmp(wday, "Mon") == 0)return 1;
+        if (strcmp(wday, "Tue") == 0)return 2;
+        if (strcmp(wday, "Wed") == 0)return 3;
+        if (strcmp(wday, "Thu") == 0)return 4;
+        if (strcmp(wday, "Fri") == 0)return 5;
+        if (strcmp(wday, "Sat") == 0)return 6;
         return -1;
     }
 
-    time_t gmtime2ctime(const string& gmt){
+    time_t gmtime2ctime(const string& gmt) {
 
-        char week[4] = {0};
-        char month[4] = {0};
+        char week[4] = { 0 };
+        char month[4] = { 0 };
         tm date;
-        sscanf(gmt.c_str(),"%3s, %2d %3s %4d %2d:%2d:%2d GMT",week,&date.tm_mday,month,&date.tm_year,&date.tm_hour,&date.tm_min,&date.tm_sec);
+        sscanf(gmt.c_str(), "%3s, %2d %3s %4d %2d:%2d:%2d GMT", week, &date.tm_mday, month, &date.tm_year, &date.tm_hour, &date.tm_min, &date.tm_sec);
         date.tm_mon = get_month_by_name(month);
         date.tm_wday = get_week_day_by_name(week);
         date.tm_year = date.tm_year - 1900;
         return mktime(&date);
     }
 
-    string gmtime(time_t t){
+    string gmtime(time_t t) {
         t += 28800;
         tm* gmt = ::gmtime(&t);
 
@@ -197,7 +198,7 @@ namespace iLogger{
         return gmtime(time(nullptr));
     }
 
-    bool mkdir(const string& path){
+    bool mkdir(const string& path) {
 #ifdef U_OS_WINDOWS
         return CreateDirectoryA(path.c_str(), nullptr);
 #else
@@ -205,7 +206,7 @@ namespace iLogger{
 #endif
     }
 
-    bool mkdirs(const string& path){
+    bool mkdirs(const string& path) {
 
         if (path.empty()) return false;
         if (exists(path)) return true;
@@ -213,23 +214,23 @@ namespace iLogger{
         string _path = path;
         char* dir_ptr = (char*)_path.c_str();
         char* iter_ptr = dir_ptr;
-        
-        bool keep_going = *iter_ptr not_eq 0;
-        while (keep_going){
+
+        bool keep_going = *iter_ptr != 0;
+        while (keep_going) {
 
             if (*iter_ptr == 0)
                 keep_going = false;
 
 #ifdef U_OS_WINDOWS
-            if (*iter_ptr == '/' or *iter_ptr == '\\' or *iter_ptr == 0){
+            if (*iter_ptr == '/' || *iter_ptr == '\\' || *iter_ptr == 0) {
 #else
-            if ((*iter_ptr == '/' and iter_ptr not_eq dir_ptr) or *iter_ptr == 0){
+            if ((*iter_ptr == '/' && iter_ptr != dir_ptr) || *iter_ptr == 0) {
 #endif
                 char old = *iter_ptr;
                 *iter_ptr = 0;
-                if (!exists(dir_ptr)){
-                    if (!mkdir(dir_ptr)){
-                        if(!exists(dir_ptr)){
+                if (!exists(dir_ptr)) {
+                    if (!mkdir(dir_ptr)) {
+                        if (!exists(dir_ptr)) {
                             INFOE("mkdirs %s return false.", dir_ptr);
                             return false;
                         }
@@ -242,7 +243,7 @@ namespace iLogger{
         return true;
     }
 
-    bool isfile(const string& file){
+    bool isfile(const string& file) {
 
 #if defined(U_OS_LINUX)
         struct stat st;
@@ -254,7 +255,7 @@ namespace iLogger{
 #endif
     }
 
-    FILE* fopen_mkdirs(const string& path, const string& mode){
+    FILE* fopen_mkdirs(const string& path, const string& mode) {
 
         FILE* f = fopen(path.c_str(), mode.c_str());
         if (f) return f;
@@ -267,7 +268,7 @@ namespace iLogger{
 #endif
         if (p == -1)
             return nullptr;
-        
+
         string directory = path.substr(0, p);
         if (!mkdirs(directory))
             return nullptr;
@@ -275,7 +276,7 @@ namespace iLogger{
         return fopen(path.c_str(), mode.c_str());
     }
 
-    bool exists(const string& path){
+    bool exists(const string& path) {
 
 #ifdef U_OS_WINDOWS
         return ::PathFileExistsA(path.c_str());
@@ -292,7 +293,7 @@ namespace iLogger{
         return buffer;
     }
 
-    string file_name(const string& path, bool include_suffix){
+    string file_name(const string& path, bool include_suffix) {
 
         if (path.empty()) return "";
 
@@ -316,7 +317,7 @@ namespace iLogger{
         return path.substr(p, u - p);
     }
 
-    string directory(const string& path){
+    string directory(const string& path) {
         if (path.empty())
             return ".";
 
@@ -326,20 +327,20 @@ namespace iLogger{
         int e = path.rfind('\\');
         p = std::max(p, e);
 #endif
-        if(p == -1)
+        if (p == -1)
             return ".";
 
         return path.substr(0, p + 1);
     }
 
-    bool begin_with(const string& str, const string& with){
+    bool begin_with(const string& str, const string& with) {
 
         if (str.length() < with.length())
             return false;
         return strncmp(str.c_str(), with.c_str(), with.length()) == 0;
     }
 
-    bool end_with(const string& str, const string& with){
+    bool end_with(const string& str, const string& with) {
 
         if (str.length() < with.length())
             return false;
@@ -355,25 +356,25 @@ namespace iLogger{
         return chrono::duration_cast<chrono::microseconds>(chrono::system_clock::now().time_since_epoch()).count() / 1000.0;
     }
 
-    static struct Logger{
+    static struct Logger {
         mutex logger_lock_;
         string logger_directory;
-        LogLevel logger_level{LogLevel::Info};
+        LogLevel logger_level{ LogLevel::Info };
         vector<string> cache_, local_;
         shared_ptr<thread> flush_thread_;
-        atomic<bool> keep_run_{false};
+        atomic<bool> keep_run_{ false };
         shared_ptr<FILE> handler;
-        bool logger_shutdown{false};
+        bool logger_shutdown{ false };
 
         void write(const string& line) {
 
             lock_guard<mutex> l(logger_lock_);
-            if(logger_shutdown) 
+            if (logger_shutdown)
                 return;
 
             if (!keep_run_) {
 
-                if(flush_thread_) 
+                if (flush_thread_)
                     return;
 
                 cache_.reserve(1000);
@@ -393,7 +394,7 @@ namespace iLogger{
                 std::swap(local_, cache_);
             }
 
-            if (!local_.empty() and !logger_directory.empty()) {
+            if (!local_.empty() && !logger_directory.empty()) {
 
                 auto now = date_now();
                 auto file = format("%s%s.txt", logger_directory.c_str(), now.c_str());
@@ -438,23 +439,23 @@ namespace iLogger{
                 logger_directory = ".";
 
 #if defined(U_OS_LINUX)
-            if (logger_directory.back() not_eq '/') {
+            if (logger_directory.back() != '/') {
                 logger_directory.push_back('/');
             }
 #endif
 
 #if defined(U_OS_WINDOWS)
-            if (logger_directory.back() not_eq '/' and logger_directory.back() not_eq '\\') {
+            if (logger_directory.back() != '/' && logger_directory.back() != '\\') {
                 logger_directory.push_back('/');
             }
 #endif
         }
 
-        void set_logger_level(LogLevel level){
+        void set_logger_level(LogLevel level) {
             logger_level = level;
         }
 
-        void close(){
+        void close() {
             {
                 lock_guard<mutex> l(logger_lock_);
                 if (logger_shutdown) return;
@@ -469,31 +470,31 @@ namespace iLogger{
             handler.reset();
         }
 
-        virtual ~Logger(){
+        virtual ~Logger() {
             close();
         }
     }__g_logger;
 
-    void destroy_logger(){
+    void destroy_logger() {
         __g_logger.close();
     }
 
-    static void remove_color_text(char* buffer){
-        
+    static void remove_color_text(char* buffer) {
+
         //"\033[31m%s\033[0m"
         char* p = buffer;
-        while(*p){
+        while (*p) {
 
-            if(*p == 0x1B){
+            if (*p == 0x1B) {
                 char np = *(p + 1);
-                if(np == '['){
+                if (np == '[') {
                     // has token
                     char* t = p + 2;
-                    while(*t){
-                        if(*t == 'm'){
+                    while (*t) {
+                        if (*t == 'm') {
                             t = t + 1;
                             char* k = p;
-                            while(*t){
+                            while (*t) {
                                 *k++ = *t++;
                             }
                             *k = 0;
@@ -507,33 +508,33 @@ namespace iLogger{
         }
     }
 
-    void set_logger_save_directory(const string& loggerDirectory){
+    void set_logger_save_directory(const string& loggerDirectory) {
         __g_logger.set_save_directory(loggerDirectory);
     }
 
-    void set_log_level(LogLevel level){
+    void set_log_level(LogLevel level) {
         __g_logger.set_logger_level(level);
     }
 
-    LogLevel get_log_level(){
+    LogLevel get_log_level() {
         return __g_logger.logger_level;
     }
 
     void __log_func(const char* file, int line, LogLevel level, const char* fmt, ...) {
 
-        if(level > __g_logger.logger_level)
+        if (level > __g_logger.logger_level)
             return;
 
         string now = time_now();
         va_list vl;
         va_start(vl, fmt);
-        
+
         char buffer[2048];
         string filename = file_name(file, true);
         int n = snprintf(buffer, sizeof(buffer), "[%s]", now.c_str());
 
 #if defined(U_OS_WINDOWS)
-        if (level == LogLevel::Fatal or level == LogLevel::Error) {
+        if (level == LogLevel::Fatal || level == LogLevel::Error) {
             n += snprintf(buffer + n, sizeof(buffer) - n, "[%s]", level_string(level));
         }
         else if (level == LogLevel::Warning) {
@@ -543,7 +544,7 @@ namespace iLogger{
             n += snprintf(buffer + n, sizeof(buffer) - n, "[%s]", level_string(level));
         }
 #elif defined(U_OS_LINUX)
-        if (level == LogLevel::Fatal or level == LogLevel::Error) {
+        if (level == LogLevel::Fatal || level == LogLevel::Error) {
             n += snprintf(buffer + n, sizeof(buffer) - n, "[\033[31m%s\033[0m]", level_string(level));
         }
         else if (level == LogLevel::Warning) {
@@ -563,7 +564,7 @@ namespace iLogger{
         n += snprintf(buffer + n, sizeof(buffer) - n, "[%s:%d]:", filename.c_str(), line);
         vsnprintf(buffer + n, sizeof(buffer) - n, fmt, vl);
 
-        if (level == LogLevel::Fatal or level == LogLevel::Error) {
+        if (level == LogLevel::Fatal || level == LogLevel::Error) {
             fprintf(stderr, "%s\n", buffer);
         }
         else if (level == LogLevel::Warning) {
@@ -628,8 +629,8 @@ namespace iLogger{
 
     bool alphabet_equal(char a, char b, bool ignore_case){
         if (ignore_case){
-            a = a > 'a' and a < 'z' ? a - 'a' + 'A' : a;
-            b = b > 'a' and b < 'z' ? b - 'a' + 'A' : b;
+            a = a > 'a' && a < 'z' ? a - 'a' + 'A' : a;
+            b = b > 'a' && b < 'z' ? b - 'a' + 'A' : b;
         }
         return a == b;
     }
@@ -639,7 +640,7 @@ namespace iLogger{
         //   abcdefg.png           *.png      > true
         //   abcdefg.png          a?cdefg.png > true
 
-        if (!matcher or !*matcher or !str or !*str) return false;
+        if (!matcher || !*matcher || !str || !*str) return false;
 
         const char* ptr_matcher = matcher;
         while (*str){
@@ -668,7 +669,7 @@ namespace iLogger{
         }
 
         while (*ptr_matcher){
-            if (*ptr_matcher not_eq '*')
+            if (*ptr_matcher != '*')
                 return false;
             ptr_matcher++;
         }
@@ -680,7 +681,7 @@ namespace iLogger{
         //   abcdefg.png           *.png      > true
         //   abcdefg.png          a?cdefg.png > true
 
-        if (!matcher or !*matcher or !str or !*str) return false;
+        if (!matcher || !*matcher || !str || !*str) return false;
 
         char filter[500];
         strcpy(filter, matcher);
@@ -715,7 +716,7 @@ namespace iLogger{
             realpath = "./";
 
         char backchar = realpath.back();
-        if (backchar not_eq '\\' and backchar not_eq '/')
+        if (backchar != '\\' && backchar != '/')
             realpath += "/";
 
         vector<string> out;
@@ -729,18 +730,18 @@ namespace iLogger{
             ps.pop();
 
             HANDLE hFind = FindFirstFileA((search_path + "*").c_str(), &find_data);
-            if (hFind not_eq INVALID_HANDLE_VALUE){
+            if (hFind != INVALID_HANDLE_VALUE){
                 do{
-                    if (strcmp(find_data.cFileName, ".") == 0 or strcmp(find_data.cFileName, "..") == 0)
+                    if (strcmp(find_data.cFileName, ".") == 0 || strcmp(find_data.cFileName, "..") == 0)
                         continue;
 
-                    if (!findDirectory and (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) not_eq FILE_ATTRIBUTE_DIRECTORY or
-                        findDirectory and (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY){
+                    if (!findDirectory && (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != FILE_ATTRIBUTE_DIRECTORY ||
+                        findDirectory && (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY){
                         if (PathMatchSpecA(find_data.cFileName, filter.c_str()))
                             out.push_back(search_path + find_data.cFileName);
                     }
 
-                    if (includeSubDirectory and (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY)
+                    if (includeSubDirectory && (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY)
                         ps.push(search_path + find_data.cFileName + "/");
 
                 } while (FindNextFileA(hFind, &find_data));
@@ -759,7 +760,7 @@ namespace iLogger{
             realpath = "./";
 
         char backchar = realpath.back();
-        if (backchar not_eq '\\' and backchar not_eq '/')
+        if (backchar != '\\' && backchar != '/')
             realpath += "/";
 
         struct dirent* fileinfo;
@@ -774,25 +775,25 @@ namespace iLogger{
             ps.pop();
 
             handle = opendir(search_path.c_str());
-            if (handle not_eq 0)
+            if (handle != 0)
             {
                 while (fileinfo = readdir(handle))
                 {
                     struct stat file_stat;
-                    if (strcmp(fileinfo->d_name, ".") == 0 or strcmp(fileinfo->d_name, "..") == 0)
+                    if (strcmp(fileinfo->d_name, ".") == 0 || strcmp(fileinfo->d_name, "..") == 0)
                         continue;
 
                     if (lstat((search_path + fileinfo->d_name).c_str(), &file_stat) < 0)
                         continue;
 
-                    if (!findDirectory and !S_ISDIR(file_stat.st_mode) or
-                        findDirectory and S_ISDIR(file_stat.st_mode))
+                    if (!findDirectory && !S_ISDIR(file_stat.st_mode) or
+                        findDirectory && S_ISDIR(file_stat.st_mode))
                     {
                         if (pattern_match(fileinfo->d_name, filter.c_str()))
                             out.push_back(search_path + fileinfo->d_name);
                     }
 
-                    if (includeSubDirectory and S_ISDIR(file_stat.st_mode))
+                    if (includeSubDirectory && S_ISDIR(file_stat.st_mode))
                         ps.push(search_path + fileinfo->d_name + "/");
                 }
                 closedir(handle);
@@ -824,7 +825,7 @@ namespace iLogger{
         int lent = spstr.length();
         const char* ptr = str.c_str();
 
-        while (p not_eq string::npos){
+        while (p != string::npos){
             int len = p - prev;
             if (len > 0){
                 res.emplace_back(str.substr(prev, len));
@@ -926,7 +927,7 @@ namespace iLogger{
             int e = (int)file.rfind('\\');
             p = std::max(p, e);
 #endif
-            if (p not_eq -1){
+            if (p != -1){
                 if (!mkdirs(file.substr(0, p)))
                     return false;
             }
@@ -935,8 +936,8 @@ namespace iLogger{
         FILE* f = fopen(file.c_str(), "wb");
         if (!f) return false;
 
-        if (data and length > 0){
-            if (fwrite(data, 1, length, f) not_eq length){
+        if (data && length > 0){
+            if (fwrite(data, 1, length, f) != length){
                 fclose(f);
                 return false;
             }
@@ -1032,12 +1033,12 @@ namespace iLogger{
 
         char *dst = const_cast<char*>(out_data.data());
         char *orig_dst = dst;
-        while (len >= 4 and (a = from_b64(s[0])) not_eq 255 and
-                (b = from_b64(s[1])) not_eq 255 and (c = from_b64(s[2])) not_eq 255 and
-                (d = from_b64(s[3])) not_eq 255) {
+        while (len >= 4 && (a = from_b64(s[0])) != 255 &&
+                (b = from_b64(s[1])) != 255 && (c = from_b64(s[2])) != 255 &&
+                (d = from_b64(s[3])) != 255) {
             s += 4;
             len -= 4;
-            if (a == 200 or b == 200) break; /* '=' can't be there */
+            if (a == 200 || b == 200) break; /* '=' can't be there */
             *dst++ = a << 2 | b >> 4;
             if (c == 200) break;
             *dst++ = b << 4 | c >> 2;
@@ -1051,7 +1052,7 @@ namespace iLogger{
     string base64_encode(const void* data, size_t size) {
 
         string encode_result;
-        encode_result.reserve(size / 3 * 4 + (size % 3 not_eq 0 ? 4 : 0));
+        encode_result.reserve(size / 3 * 4 + (size % 3 != 0 ? 4 : 0));
 
         const unsigned char * current = static_cast<const unsigned char*>(data);
         static const char *base64_table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";  

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.2)
 project(pro)
 
 option(CUDA_USE_STATIC_CUDA_RUNTIME OFF)
@@ -10,13 +10,13 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/workspace)
 set(CUDA_GEN_CODE "-gencode=arch=compute_75,code=sm_75")
 
 # 如果你的opencv找不到，可以自己指定目录
-set(OpenCV_DIR   "/data/datav/expstation/lean/opencv4.2.0/lib/cmake/opencv4/")
+set(OpenCV_DIR   "E:/opencv/opencv314/opencv/build/")
 
-set(CUDA_DIR     "/data/sxai/lean/cuda-10.2")
-set(CUDNN_DIR    "/data/sxai/lean/cudnn8.2.2.26")
-set(TENSORRT_DIR "/data/sxai/lean/TensorRT-8.0.1.6-cuda10.2-cudnn8.2")
-set(NVDEC_DIR    "/data/sxai/lean/Video_Codec_SDK_10.0.26")
-set(FFMPEG_DIR   "/data/sxai/lean/ffmpeg4.2")
+set(CUDA_DIR     "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.1")
+set(CUDNN_DIR    "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.1")
+set(TENSORRT_DIR "E:/TensorRT-8.2.3.0")
+set(NVDEC_DIR    "F:/LearningCode/hard_decode_trt-windows/Video_Codec_SDK_10.0.26")
+set(FFMPEG_DIR   "F:/LearningCode/hard_decode_trt-windows/ffmpeg-4.2.2-win64-dev")
 
 # set(CUDA_DIR     "/data/sxai/lean/cuda-10.2")
 # set(CUDNN_DIR    "/data/sxai/lean/cudnn7.6.5.32-cuda10.2")
@@ -27,7 +27,7 @@ set(FFMPEG_DIR   "/data/sxai/lean/ffmpeg4.2")
 # set(TENSORRT_DIR "/data/sxai/lean/TensorRT-7.2.1.6")
 
 # 因为protobuf，需要用特定版本，所以这里指定路径
-set(PROTOBUF_DIR "/data/sxai/lean/protobuf3.11.4")
+set(PROTOBUF_DIR "F:/LearningCode/tensorRT_Pro/lean/protobuf3.11.4")
 
 
 find_package(CUDA REQUIRED)
@@ -52,26 +52,26 @@ include_directories(
 link_directories(
     ${PROTOBUF_DIR}/lib
     ${TENSORRT_DIR}/lib
-    ${CUDA_DIR}/lib64
+    ${CUDA_DIR}/lib/x64
     ${CUDNN_DIR}/lib
-    ${NVDEC_DIR}/Lib/linux/stubs/x86_64
+    ${NVDEC_DIR}/Lib/x64
     ${FFMPEG_DIR}/lib
 )
 
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -O0 -Wfatal-errors -pthread -w -g")
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -O0  -w -g")
 set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -std=c++11 -O0 -Xcompiler -fPIC -g -w ${CUDA_GEN_CODE}")
-file(GLOB_RECURSE cpp_srcs ${PROJECT_SOURCE_DIR}/src/*.cpp)
-file(GLOB_RECURSE cuda_srcs ${PROJECT_SOURCE_DIR}/src/*.cu)
-cuda_add_library(plugin_list SHARED ${cuda_srcs})
+file(GLOB_RECURSE cpp_srcs ${PROJECT_SOURCE_DIR}/src/*.cpp ${PROJECT_SOURCE_DIR}/src/*.cu)
+#file(GLOB_RECURSE cuda_srcs ${PROJECT_SOURCE_DIR}/src/*.cu)
+#cuda_add_library(plugin_list SHARED ${cuda_srcs})
 
 add_executable(pro ${cpp_srcs})
 
 # 如果提示插件找不到，请使用dlopen(xxx.so, NOW)的方式手动加载可以解决插件找不到问题
-target_link_libraries(pro nvinfer nvinfer_plugin)
+target_link_libraries(pro nvinfer nvinfer_plugin nvonnxparser nvparsers)
 target_link_libraries(pro cuda cublas cudart cudnn)
-target_link_libraries(pro nvcuvid nvidia-encode)
-target_link_libraries(pro protobuf pthread plugin_list)
-target_link_libraries(pro avcodec avformat avresample swscale avutil)
+target_link_libraries(pro nvcuvid nvencodeapi)
+target_link_libraries(pro libprotobufd)
+target_link_libraries(pro avcodec avformat swresample swscale avutil)
 target_link_libraries(pro ${OpenCV_LIBS})
 
 add_custom_target(

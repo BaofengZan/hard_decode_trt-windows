@@ -10,11 +10,11 @@ int app_yolo();
 
 int main(int argc, char** argv){
     
-    const char* method = "yolo";
-    if(argc > 1){
-        method = argv[1];
-    }
-
+    const char* method = "demuxer";
+    //if(argc > 1){
+    //    method = argv[1];
+    //}
+    
     if(strcmp(method, "demuxer") == 0){
         app_demuxer();
     }else if(strcmp(method, "hard_decode") == 0){

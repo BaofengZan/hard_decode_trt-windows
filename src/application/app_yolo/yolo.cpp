@@ -9,6 +9,7 @@
 #include <common/preprocess_kernel.cuh>
 #include <common/monopoly_allocator.hpp>
 #include <common/cuda_tools.hpp>
+#include <common/preprocess_kernel.cuh>
 
 namespace Yolo{
     using namespace cv;
@@ -21,6 +22,8 @@ namespace Yolo{
         default: return "Unknow";
         }
     }
+
+    //CUDAKernel::Norm  alpha_beta(float alpha, float beta = 0, CUDAKernel::ChannelType channel_type = CUDAKernel::ChannelType::None);
 
     void decode_kernel_invoker(
         float* predict, int num_bboxes, int num_classes, float confidence_threshold, 
