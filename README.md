@@ -13,8 +13,6 @@
 - 理解并善于利用的时候，他才可能发挥最大的效果
 * 原版的仓库：[shouxieai/hard_decode_trt: Yolov5 inference on NVDec hardware decoder (github.com)](https://github.com/shouxieai/hard_decode_trt)
 
-
-
 ## window编译流程
 
 * 安装ffmpeg 
@@ -29,11 +27,9 @@
   
   * 注意:这个API对驱动版本号有要求， 所以要看本机的驱动在下载相关的版本
     
-    * 我这里用的10.0版本 Windows: 
+    * 我这里用的10.0版本
       
-      * Driver version 445.87 or higher
-      
-      *  Linux: Driver version 450.51 or higher
+      * Windows: Driver version 445.87 or higher
 
 * 修改cmakelists中的 13-30行的路径
 
