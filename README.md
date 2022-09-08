@@ -15,6 +15,10 @@
 
 ## window编译流程
 
+* opencv cuda protobuf trt可以直接用 杜佬打包好的
+  
+  * [lean-windows](https://github.com/shouxieai/tensorRT_Pro/blob/main/lean/README.md)
+
 * 安装ffmpeg 
   
   * [zeranoe directory listing (archive.org)](https://archive.org/download/zeranoe/win64/dev/)
